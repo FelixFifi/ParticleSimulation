@@ -1,9 +1,8 @@
-
+from ParticlesSetup import random_particles
 import tkinter as tk
 
 
 class Window:
-    PARTICLE_RADIUS = 4
 
     def __init__(self, width, height, update_function, particles):
         self.width = width
@@ -16,7 +15,7 @@ class Window:
 
         self.update_function = update_function
         self.update_time_ms = tk.IntVar()
-        self.update_time_ms.set(1000)
+        self.update_time_ms.set(0)
         self.scale_update = tk.Scale(self.master, variable=self.update_time_ms, from_=0, to=1000,
                                      orient=tk.HORIZONTAL, length=width)
         self.scale_update.grid()
@@ -24,6 +23,10 @@ class Window:
         self.canvas = tk.Canvas(self.master, width=self.width, height=self.height)
         self.canvas.grid()
 
+        self.button_restart = tk.Button(self.master, text="Restart", command=self.restart)
+        self.button_restart.grid()
+
+        # Start regular update loop
         self.master.after(self.update_time_ms.get(), func=self.update_wrapper)
 
         self.master.mainloop()
@@ -41,7 +44,8 @@ class Window:
 
         self.master.update_idletasks()
 
-
+    def restart(self):
+        self.particles = random_particles(100, self.width, self.height)
 
     def update_wrapper(self):
         """
