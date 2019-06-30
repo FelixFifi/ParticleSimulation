@@ -1,12 +1,12 @@
 from abc import ABC, abstractmethod
 from random import randint
-from math import sqrt
+import numpy as np
 
 
 class Particle(ABC):
 
     def __init__(self, position, color, canvas_width, canvas_height, radius=None):
-        self.position = position
+        self.position = np.array(position, dtype=np.float)
         self.color = color
 
         if not radius:
@@ -26,9 +26,7 @@ class Particle(ABC):
                            fill=self.color, width=0)
 
     def distance(self, particle):
-        dx = self.position[0] - particle.position[0]
-        dy = self.position[1] - particle.position[1]
-        return sqrt(dx * dx + dy * dy)
+        return np.linalg.norm(self.position - particle.position)
 
     @staticmethod
     def random_color():

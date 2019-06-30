@@ -1,21 +1,25 @@
-from ParticlesSetup import random_particles
+from ParticlesSetup import random_gravity_particles
 import tkinter as tk
+
+NUM_PARTICLES = 50
 
 
 class Window:
 
-    def __init__(self, width, height, update_function, particles):
+    def __init__(self, width, height, update_function, particles_generator):
         self.width = width
         self.height = height
 
-        self.particles = particles
+        self.particles_generator = particles_generator
+        self.particles = None
+        self.restart()
 
         self.master = tk.Tk()
         self.master.title = "Particle Simulation"
 
         self.update_function = update_function
         self.update_time_ms = tk.IntVar()
-        self.update_time_ms.set(0)
+        self.update_time_ms.set(10)
         self.scale_update = tk.Scale(self.master, variable=self.update_time_ms, from_=0, to=1000,
                                      orient=tk.HORIZONTAL, length=width)
         self.scale_update.grid()
@@ -45,7 +49,7 @@ class Window:
         self.master.update_idletasks()
 
     def restart(self):
-        self.particles = random_particles(100, self.width, self.height)
+        self.particles = self.particles_generator(NUM_PARTICLES, self.width, self.height)
 
     def update_wrapper(self):
         """
