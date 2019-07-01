@@ -20,7 +20,12 @@ class Window:
 
         # ==== UI creation ====
         self.master = tk.Tk()
-        self.master.title = "Particle Simulation"
+        self.master.title("Particle Simulation")
+
+        # Selected Generator Label
+        self.label_selected_generator = tk.Label(self.master, text="")
+        self.label_selected_generator.grid()
+        self.update_label_current_generator()
 
         # Time scale
         self.update_time_ms_tk = tk.IntVar()
@@ -78,6 +83,7 @@ class Window:
 
     def restart(self):
         self.particles = self.selected_generator(self.num_particles_tk.get(), self.width, self.height)
+        self.draw()
 
     def update_wrapper(self):
         """
@@ -99,5 +105,9 @@ class Window:
         if key <= len(self.particles_generators):
             # First key is 1 but array starts at 0
             self.selected_generator = self.particles_generators[key - 1]
+            self.update_label_current_generator()
             self.restart()
 
+    def update_label_current_generator(self):
+        self.label_selected_generator.configure(text=f"Current Paricles Generator: {self.selected_generator.__name__}\n"
+                                                     f"Press number keys to change generator.")
