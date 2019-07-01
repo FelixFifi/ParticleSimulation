@@ -6,7 +6,8 @@ from Particles.Particle import update_particles
 def main():
     width = 1024
     height = 768
-    window = Window(width, height, update_particles, random_charged_particles)
+    particles_generators = [random_charged_particles, random_gravity_particles]
+    window = Window(width, height, update_particles, particles_generators)
 
 
 if __name__ == "__main__":

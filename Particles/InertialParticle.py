@@ -23,12 +23,9 @@ class InertialParticle(Particle):
         for particle in particles:
             self.collide(particle)
 
-        self.position[0] += self.velocity[0]
-        self.position[1] += self.velocity[1]
+        self.position += self.velocity
 
         self.keep_in_canvas()
-
-        self.collision_handled = False
 
     def add_force(self, force):
         self.velocity += force / self.mass
@@ -86,14 +83,14 @@ class InertialParticle(Particle):
 
         if x < 0:
             self.position[0] = - x
-            self.velocity[0] *= -1
+            self.velocity[0] *= -self.elasticity
         if y < 0:
             self.position[1] = - y
-            self.velocity[1] *= -1
+            self.velocity[1] *= -self.elasticity
 
         if x >= self.canvas_width:
             self.position[0] = 2 * self.canvas_width - x + 1
-            self.velocity[0] *= -1
+            self.velocity[0] *= -self.elasticity
         if y >= self.canvas_height:
             self.position[1] = 2 * self.canvas_height - y + 1
-            self.velocity[1] *= -1
+            self.velocity[1] *= -self.elasticity
