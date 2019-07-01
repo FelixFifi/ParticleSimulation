@@ -1,6 +1,9 @@
 from random import randint, randrange, choice
 from Particles.GravityParticle import GravityParticle
 from Particles.ChargedParticle import ChargedParticle
+from Particles.ForceFunctionParticle import ForceFunctionParticle
+from ForceFunctions import *
+
 import numpy as np
 
 
@@ -36,5 +39,30 @@ def random_charged_particles(num_particles, width, height):
 
         charge = choice(charges)
         particle = ChargedParticle(position, velocity, charge, width, height, mass=1, elasticity=0.5)
+        particles.append(particle)
+    return particles
+
+
+def random_attract_repel_particles(num_particles, width, height):
+    particles = []
+
+    force_function = attract_and_repel
+    for i in range(num_particles):
+        position = random_position(width, height)
+        velocity = np.array([0.0, 0.0], dtype=np.float)
+
+        particle = ForceFunctionParticle(position, force_function, width, height, mass=1, elasticity=0.5)
+        particles.append(particle)
+    return particles
+
+def random_repel_particles(num_particles, width, height):
+    particles = []
+
+    force_function = repel
+    for i in range(num_particles):
+        position = random_position(width, height)
+        velocity = np.array([0.0, 0.0], dtype=np.float)
+
+        particle = ForceFunctionParticle(position, force_function, width, height, mass=1, elasticity=0.5)
         particles.append(particle)
     return particles

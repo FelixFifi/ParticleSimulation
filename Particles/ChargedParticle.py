@@ -21,12 +21,13 @@ class ChargedParticle(InertialParticle):
     def update_position(self, particles):
         InertialParticle.update_position(self, particles)
 
+        force = np.array([0.0, 0.0], dtype=np.float)
         for particle in particles:
             if not issubclass(type(particle), ChargedParticle):
                 continue
             vectorial_distance = particle.position - self.position
-            force = - COULOMBS_CONSTANT * self.charge * particle.charge / np.linalg.norm(vectorial_distance) ** 2 \
+            force -= COULOMBS_CONSTANT * self.charge * particle.charge / np.linalg.norm(vectorial_distance) ** 2 \
                     * vectorial_distance
 
-            self.velocity += force / self.mass
+        self.velocity += force / self.mass
 
