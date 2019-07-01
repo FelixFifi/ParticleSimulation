@@ -1,13 +1,14 @@
-from Particles.InertialParticle import InertialParticle
+from Particles.CollidingParticle import CollidingParticle
 import numpy as np
 
 
-class ForceFunctionParticle(InertialParticle):
+class ForceFunctionParticle(CollidingParticle):
     """
     A ForceFunctionParticle has a function that dictates what force it produces on other particles.
     """
     def __init__(self, position, force_function, canvas_width, canvas_height,
-                 velocity=np.array([0, 0], dtype=np.float), color=None, mass=None, elasticity=1.0):
+                 velocity=np.array([0, 0], dtype=np.float), color=None, mass=None, elasticity=1.0, radius=None,
+                 friction=0.0):
         """
 
         :param self:
@@ -21,7 +22,8 @@ class ForceFunctionParticle(InertialParticle):
         :param elasticity:
         :return:
         """
-        InertialParticle.__init__(self, position, velocity, canvas_width, canvas_height, color, mass, elasticity)
+        CollidingParticle.__init__(self, position, velocity, canvas_width, canvas_height, color, mass, elasticity,
+                                   radius=radius, friction=friction)
 
         self.force_function = force_function
 
@@ -33,7 +35,7 @@ class ForceFunctionParticle(InertialParticle):
 
         self.velocity += force / self.mass
 
-        InertialParticle.update_position(self, particles)
+        CollidingParticle.update_position(self, particles)
 
     def get_force_on(self, particle):
         return self.force_function(self, particle)

@@ -1,10 +1,10 @@
-from Particles.InertialParticle import InertialParticle
+from Particles.CollidingParticle import CollidingParticle
 import numpy as np
 
 COULOMBS_CONSTANT = 8.99 * 10 ** 9
 
 
-class ChargedParticle(InertialParticle):
+class ChargedParticle(CollidingParticle):
 
     def __init__(self, position, velocity, charge, canvas_width, canvas_height, mass=None, elasticity=1.0):
         self.charge = charge
@@ -16,10 +16,10 @@ class ChargedParticle(InertialParticle):
         else:
             color = "#ffffff"
 
-        InertialParticle.__init__(self, position, velocity, canvas_width, canvas_height, color, mass, elasticity)
+        CollidingParticle.__init__(self, position, velocity, canvas_width, canvas_height, color, mass, elasticity)
 
     def update_position(self, particles):
-        InertialParticle.update_position(self, particles)
+        CollidingParticle.update_position(self, particles)
 
         force = np.array([0.0, 0.0], dtype=np.float)
         for particle in particles:

@@ -1,9 +1,9 @@
-from Particles.InertialParticle import InertialParticle
+from Particles.CollidingParticle import CollidingParticle
 
 G = 6.67408 * pow(10, -11)
 
 
-class GravityParticle(InertialParticle):
+class GravityParticle(CollidingParticle):
 
     def update_position(self, particles):
         for particle in particles:
@@ -19,5 +19,5 @@ class GravityParticle(InertialParticle):
 
                 self.velocity += acceleration * direction
 
-        InertialParticle.update_position(self, particles)
+        CollidingParticle.update_position(self, particles)
 

@@ -24,7 +24,7 @@ class Window:
 
         # Time scale
         self.update_time_ms_tk = tk.IntVar()
-        self.update_time_ms_tk.set(10)
+        self.update_time_ms_tk.set(0)
         self.scale_update = tk.Scale(self.master, variable=self.update_time_ms_tk, from_=0, to=1000,
                                      orient=tk.HORIZONTAL, length=width,
                                      label="(Minimum) Time between update calls [ms]")
@@ -89,6 +89,11 @@ class Window:
         self.master.after(self.update_time_ms_tk.get(), func=self.update_wrapper)
 
     def switch_particle_types_handler(self, event):
+        """
+        Selects the one of the specified particles_generators and generates new particles.
+        :param event:
+        :return:
+        """
         key = int(event.keysym)
 
         if key <= len(self.particles_generators):

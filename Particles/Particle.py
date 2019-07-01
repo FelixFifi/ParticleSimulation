@@ -10,7 +10,7 @@ class Particle(ABC):
         self.color = color
 
         if not radius:
-            radius = randint(10, 10)
+            radius = 10
         self.radius = radius
 
         self.canvas_width = canvas_width
