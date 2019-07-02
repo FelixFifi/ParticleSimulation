@@ -59,7 +59,7 @@ def parameterized_force_function_type1(factor_repelling, distance_mode_change, m
 
         strength = 0.0
         if distance < distance_mode_change:
-            strength = factor_repelling / distance - factor_repelling / distance_mode_change
+            strength = factor_repelling / (distance + 1) - factor_repelling / (distance_mode_change + 1)
         elif distance < distance_mode_change + (distance_force_end - distance_mode_change) / 2.0:
             strength = (distance - distance_mode_change) * max_strength_slopes / ((distance_force_end - distance_mode_change) / 2.0)
         elif distance < distance_force_end:
