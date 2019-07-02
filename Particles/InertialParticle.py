@@ -10,6 +10,7 @@ class InertialParticle(Particle):
             color = Particle.random_color()
 
         Particle.__init__(self, position, color, canvas_width, canvas_height, radius=radius)
+        self.canvas_center = np.array([self.canvas_width / 2.0 - 0.5, self.canvas_height / 2.0 - 0.5], dtype=np.float)
 
         self.velocity = np.array(velocity, dtype=np.float)
         self.friction = friction
@@ -42,8 +43,26 @@ class InertialParticle(Particle):
             self.velocity[1] *= -self.elasticity
 
         if x >= self.canvas_width:
-            self.position[0] = 2 * self.canvas_width - x + 1
+            self.position[0] = 2 * self.canvas_width - x
             self.velocity[0] *= -self.elasticity
         if y >= self.canvas_height:
-            self.position[1] = 2 * self.canvas_height - y + 1
+            self.position[1] = 2 * self.canvas_height - y
             self.velocity[1] *= -self.elasticity
+
+        # Add force towards center if very close to border
+        distance_to_border = self._distance_to_border()
+        force_end = 50
+        force_strength = 5
+
+        if distance_to_border <= force_end:
+            vector_center = self.canvas_center - self.position
+            direction_center = vector_center / np.linalg.norm(vector_center)
+
+            force = force_strength * (direction_center / (distance_to_border + 1))
+            force += np.sign(force) * force_strength / force_end
+            self.add_force(force)
+
+    def _distance_to_border(self):
+        x = self.position[0]
+        y = self.position[1]
+        return min(x, y, self.canvas_width - x, self.canvas_height - y)

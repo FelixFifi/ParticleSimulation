@@ -93,7 +93,7 @@ def random_different_groups_parameterized_particles(num_particles, width, height
 
         factor_repelling = float(uniform(20, 100))
         distance_mode_change = float(uniform(radius, radius * 10))
-        max_strength_slopes = float(uniform(-1.5, 1))
+        max_strength_slopes = float(uniform(-1.0, 1))
         distance_force_end = float(uniform(distance_mode_change + 1, distance_mode_change * 20))
         force_function = parameterized_force_function_type1(factor_repelling, distance_mode_change, max_strength_slopes,
                                                             distance_force_end)
